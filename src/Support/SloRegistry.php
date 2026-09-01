@@ -12,7 +12,7 @@ final class SloRegistry
     {
         if (isset($this->objectives[$name]) || $target <= 0 || $target > 1) {
             throw new InvalidArgumentException('Invalid or duplicate SLO.');
-        }$this->objectives[$name] = ['target' => $target, 'window' => $window];
+        }$this->objectives[$name] = compact('target', 'window');
     }
 
     public function all(): array
