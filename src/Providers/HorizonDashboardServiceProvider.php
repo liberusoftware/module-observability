@@ -27,8 +27,6 @@ class HorizonDashboardServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewHorizon', function (?ObservabilityActor $user = null) {
-            return $user?->isAdmin() ?? false;
-        });
+        Gate::define('viewHorizon', fn (?ObservabilityActor $user = null) => $user?->isAdmin() ?? false);
     }
 }

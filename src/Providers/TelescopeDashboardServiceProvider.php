@@ -21,14 +21,12 @@ class TelescopeDashboardServiceProvider extends TelescopeApplicationServiceProvi
 
         $isLocal = $this->app->environment('local');
 
-        Telescope::filter(function (IncomingEntry $entry) use ($isLocal) {
-            return $isLocal ||
-                   $entry->isReportableException() ||
-                   $entry->isFailedRequest() ||
-                   $entry->isFailedJob() ||
-                   $entry->isScheduledTask() ||
-                   $entry->hasMonitoredTag();
-        });
+        Telescope::filter(fn (IncomingEntry $entry): bool => $isLocal ||
+               $entry->isReportableException() ||
+               $entry->isFailedRequest() ||
+               $entry->isFailedJob() ||
+               $entry->isScheduledTask() ||
+               $entry->hasMonitoredTag());
     }
 
     /**
@@ -56,8 +54,6 @@ class TelescopeDashboardServiceProvider extends TelescopeApplicationServiceProvi
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', function (ObservabilityActor $user) {
-            return $user->isAdmin();
-        });
+        Gate::define('viewTelescope', fn (ObservabilityActor $user) => $user->isAdmin());
     }
 }
